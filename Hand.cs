@@ -15,10 +15,8 @@ namespace KinectProvider
     /// <author>Christopher-Eyk Hrabia - www.ceh-photo.de</author>
     class Hand : IDisposable
     {
-        DebugCursor cursor;
-        //Another possible cursor, which will even work on Windows 8 Startscreen, but less nice looking if you are not using squared cursors
-        //Cursor cursor = new Cursor();
-
+        ICursor cursor;
+      
         InputStatus currentStatus = InputStatus.UNKNOWN;
 
         HandContact currentContact = null;
@@ -57,7 +55,7 @@ namespace KinectProvider
             cursorImage[(int)InputStatus.CURSOR] = getColoredImage(Resources.DiscImage, color);
             cursorImage[(int)InputStatus.UNKNOWN] = getColoredImage(Resources.DiscImage, color);
             cursorImage[(int)InputStatus.TOUCHED] = getColoredImage(Resources.DiscImageFilled, color);
-            cursor = new DebugCursor(cursorImage[(int)status]);
+            cursor = CursorFactory.getCursor(cursorImage[(int)status]);
         }
 
         /// <summary>
@@ -142,7 +140,7 @@ namespace KinectProvider
             if (currentStatus != newStatus)
             {
                 currentStatus = newStatus;
-                cursor.Bitmap = cursorImage[(int)newStatus];
+                cursor.setBitmap( cursorImage[(int)newStatus]);
             }
             return newStatus;
         }
@@ -177,8 +175,6 @@ namespace KinectProvider
 
         public void Dispose()
         {
-            cursor.Hide();
-            cursor.Close();
             cursor.Dispose();
         }
     }

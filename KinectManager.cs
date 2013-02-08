@@ -6,8 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using ManagedWinapi.Hooks;
-using ManagedWinapi.Windows;
 using OpenNI;
 using System.Diagnostics;
 using KinectProvider;

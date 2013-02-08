@@ -15,7 +15,7 @@ namespace KinectProvider
     /// Best results with bitmaps without transparent area --> squares
     /// </summary>
     /// <author>Christopher-Eyk Hrabia - www.ceh-photo.de</author>
-    class Cursor
+    class Cursor: ICursor
     {
         /// <summary>
         /// Rectangle struct for accessing User32 functions
@@ -38,19 +38,15 @@ namespace KinectProvider
         private Point oldPoint = new Point();
 
         /// <summary>
+        /// The current location
+        /// </summary>
+        private Point currentPoint = new Point();
+
+        /// <summary>
         /// Cursor bitmap
         /// </summary>
         private Bitmap bitmap;
 
-        /// <summary>
-        /// Set and get current cursor bitmap
-        /// Bitmap should have as less transparent space on the outline as possible
-        /// </summary>
-        public Bitmap Bitmap
-        {
-            get { return bitmap; }
-            set { bitmap = value; }
-        }
         /// <summary>
         /// Save rectangle struct to avoid repainting
         /// </summary>
@@ -67,6 +63,13 @@ namespace KinectProvider
         private int paintCounter = 0;
 
         /// <summary>
+        /// Update graphics thread
+        /// </summary>
+        private Thread updateThread;
+
+        private Boolean shouldRun;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="bitmap"> Initial cursor bitmap</param>
@@ -74,6 +77,21 @@ namespace KinectProvider
         {
             this.bitmap = bitmap;
             this.desktopG = Graphics.FromHwnd(IntPtr.Zero);
+            shouldRun = true;
+            updateThread = new Thread(update);
+            updateThread.Start();
+        }
+
+        /// <summary>
+        /// Update thread routine
+        /// </summary>
+        private void update()
+        {
+            while (shouldRun)
+            {
+                updateGraphics(currentPoint);
+                Thread.Sleep(10);
+            }
         }
 
         /// <summary>
@@ -81,8 +99,12 @@ namespace KinectProvider
         /// </summary>
         /// <param name="point">new point location</param>
         public void Show(Point point)
-        {
+        {            
+            currentPoint = point;
+        }
 
+        private void updateGraphics(Point point)
+        {
             if (point.X == oldPoint.X && point.Y == oldPoint.Y)
             {
                 //if we don't do this, the cursor will be hidden after stopping movement -- probably because of the paint update cycle
@@ -114,6 +136,22 @@ namespace KinectProvider
 
             //save current point location
             oldPoint = point;
+        }
+
+        /// <summary>
+        /// Set and get current cursor bitmap
+        /// Bitmap should have as less transparent space on the outline as possible
+        /// </summary>
+        /// <param name="bitmap">the new bitmap</param>
+        public void setBitmap(Bitmap bitmap)
+        {
+            this.bitmap = bitmap;
+        }
+
+        public void Dispose()
+        {
+            shouldRun = false;
+            updateThread.Join();
         }
     }
 }

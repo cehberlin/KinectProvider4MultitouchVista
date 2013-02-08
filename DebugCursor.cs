@@ -14,7 +14,7 @@ namespace KinectProvider
     /// based on the implementation in MultipleMice InputProvider
     /// </summary>
     /// <author>Christopher-Eyk Hrabia - www.ceh-photo.de</author>
-    class DebugCursor : Form
+    class DebugCursor : Form,ICursor
     {
         private bool isClosing;
         private Bitmap feedbackImage;
@@ -23,14 +23,12 @@ namespace KinectProvider
         private int xCenter;
         private int yCenter;
 
-        public Bitmap Bitmap
+        public DebugCursor(Bitmap bitmap)
         {
-            get { return currentBitmap; }
-            set
-            {
-                updateBitmap(value);
-                currentBitmap = value;
-            }
+            FormBorderStyle = FormBorderStyle.None;
+            ShowInTaskbar = false;
+            TopMost = true;
+            setBitmap(bitmap);
         }
 
         private void updateBitmap(System.Drawing.Bitmap value)
@@ -43,14 +41,7 @@ namespace KinectProvider
                 xCenter = (Width / 2);
                 yCenter = (Height / 2);
             }
-        }
-
-        public DebugCursor(Bitmap bitmap)
-        {
-            FormBorderStyle = FormBorderStyle.None;
-            ShowInTaskbar = false;
-            TopMost = true;
-            Bitmap = bitmap;
+            currentBitmap = value;
         }
 
         private void Render(Graphics g)
@@ -140,6 +131,12 @@ namespace KinectProvider
             get { return isClosing; }
         }
 
+        public new void Dispose()
+        {
+            this.Hide();
+            this.Close();
+            base.Dispose();
+        }
 
         [Flags]
         public enum WindowExStyleFlags : uint
@@ -253,6 +250,11 @@ namespace KinectProvider
             /// Specifies that a window has a border with a raised edge.
             /// </summary>
             WINDOWEDGE = 0x00000100
+        }
+
+        public void setBitmap(Bitmap bitmap)
+        {
+            updateBitmap(bitmap);
         }
     }
 }
