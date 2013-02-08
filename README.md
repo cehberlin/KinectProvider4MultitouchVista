@@ -37,7 +37,7 @@ Build together with Multitouchvista:
 - Build project and all multitouchvista solutions
 
 Build standalone:
-- Clone the repository and download my build of multitouchvista (at time of writting MultiTouchVista_bin_69631.zip)
+- Clone the repository and download my build of multitouchvista (at time of writting [MultiTouchVista_bin_69631_with_KinectProvider4MultitouchVista.zip]( http://www.ceh-photo.de/blog/?p=749))
 - Use for building the solution KinectProviderBuildStandAlone.sln with KinectProviderStandAlone.csproj
 - This solution is using included dlls from the multitouchvista framework which are located in the folder libStandAloneBuild
 	- Multitouch.Contracts.dll and System.ComponentModel.Composition
