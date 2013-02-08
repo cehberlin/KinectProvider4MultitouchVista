@@ -17,11 +17,8 @@ Use
 - [You are now able to test the input, but be aware, no touch input is processed, you can just play with the cursors. Filled circle is a click, Unfilled just for position]
 - Start Multitouch.Driver.Console.exe for enabling touch processing through multitouchvista
 
-
-Build
------
-
-Prerequisites:
+Prerequisites
+-------------
 
 Libraries:
 - openni-win32-1.5.4.0-dev
@@ -30,6 +27,9 @@ Driver:
 - nite-win32-1.5.2.21-dev
 
 Probably newer versions of libs and drivers, but these are the versions I used.
+
+Build
+-----
 
 Build together with Multitouchvista:
 - After cloning the repository copy the folder into "Main Source\InputProviders" of the MultiTouchVista source tree
