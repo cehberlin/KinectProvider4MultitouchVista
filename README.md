@@ -51,7 +51,7 @@ Other build and development instructions:
 This cursor will work on the new start screen, but is looking less nice and will only work in a one screen setup and needs more performance. 
 You should first try the default implementation.
 
-Licence:
+License:
 --------
 
 Copyright 2012 Christopher-Eyk Hrabia
